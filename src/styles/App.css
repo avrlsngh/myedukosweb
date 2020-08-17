@@ -1,0 +1,7 @@
+.appContainer {
+  background-color: #0d0d0d;
+  min-height: 100vh;
+  display: flex;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}

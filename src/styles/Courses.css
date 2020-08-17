@@ -1,0 +1,135 @@
+iframe {
+  border-radius: 10px;
+  height: 480px;
+  width: 100% !important;
+}
+.qier-player {
+  border-radius: 10px !important;
+}
+
+/* qier-player-container {
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+} */
+
+.controller-container {
+  width: 100%;
+}
+
+.play-icon {
+  bottom: 0;
+  top: 47%;
+  right: 0;
+  left: 47%;
+  font-size: 48px !important;
+}
+.multifunction-quality {
+  display: none !important;
+}
+
+.instructorCard {
+  position: sticky;
+  top: 0;
+  padding-top: 20;
+  position: -webkit-sticky;
+}
+
+.lessonPlayButton {
+  position: absolute;
+  top: 24%;
+  left: 35%;
+}
+
+.buyNowFooter {
+  display: none;
+}
+
+p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .videoPlayer {
+    height: 240px !important;
+  }
+  .play-icon {
+    bottom: 0;
+    top: 44%;
+    right: 0;
+    left: 45%;
+    font-size: 48px !important;
+  }
+  .lessonCard {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .lessonThumb {
+    width: 100% !important;
+  }
+  .lessonPlayButton {
+    top: 26%;
+    left: 38%;
+  }
+  .lessonDesc {
+    margin-top: 10px;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .courseTitle {
+    font-size: 25px;
+  }
+  .mobileBuyNow {
+    display: none;
+  }
+  .lessonPrice {
+    display: none;
+  }
+  .buyNowFooter {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 0.8rem 1.6rem;
+    z-index: 100;
+    background-color: #0d0d0d;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.08), 0 -4px 12px rgba(0, 0, 0, 0.08);
+    color: white;
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .videoPlayer {
+    height: 360px !important;
+  }
+  .cardLayoutTab2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .lessonCard {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .lessonThumb {
+    width: 100% !important;
+    height: 200px !important;
+  }
+  .lessonPlayButton {
+    top: 30%;
+    left: 48%;
+  }
+  .lessonDesc {
+    margin-top: 10px;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .instructorCard {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+  }
+}

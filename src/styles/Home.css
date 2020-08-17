@@ -1,0 +1,384 @@
+.loginButton {
+  background: linear-gradient(226deg, #ff0000 0%, rgba(113, 165, 210, 1) 80%);
+}
+
+.formSendButon {
+  background-color: rgba(113, 165, 210, 0.8) !important;
+}
+
+.videoPlayer {
+  position: relative;
+  /* pointer-events: none; */
+}
+
+#widget2 {
+  /* pointer-events: none !important; */
+}
+
+div[role~="toolbar"] {
+  display: none;
+}
+
+.ndfHFb-c4YZDc-Wrql6b-SmKAyb {
+  display: none !important;
+}
+
+.videoContainer {
+  display: flex;
+}
+
+.videoControls {
+  /* display: flex; */
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 80;
+}
+
+.form-control:focus {
+  border-color: #ff0000 !important;
+  box-shadow: 0 0 0 0.2rem rgb(194, 45, 102) !important;
+}
+
+.rotatedCardBody {
+  transform: rotate(20deg);
+}
+
+.courseCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  width: 100%;
+}
+.courseCardImage {
+  height: 220px;
+  overflow: hidden;
+  /* position: relative; */
+}
+
+.cardImage:hover {
+  transform: scale(1.2);
+}
+
+.cardImage {
+  transition: all 0.8s;
+  -webkit-transition: all 0.8s;
+}
+
+.courseCardBody {
+  background-color: #fff;
+  color: black;
+  height: 180px;
+  border-radius: 0 0 10px 10px;
+  top: 40px;
+}
+.courseRotatedComp {
+  transform: skewY(-7deg);
+  transform-origin: top left;
+  position: absolute;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+  z-index: 2;
+  background: #fff;
+  height: 70px;
+  width: 100%;
+  left: 0%;
+  top: 5%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  display: none;
+}
+
+.watchTrailer {
+  position: absolute;
+  z-index: 2;
+  background: #fff;
+  height: 90px;
+  width: 90px;
+  border-radius: 60px;
+  left: 40%;
+  top: 43%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+/* 
+.loginButton::before {
+  opacity: 0;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: linear-gradient(
+    226deg,
+    rgba(113, 165, 210, 1) 0%,
+    #ff0000 80%
+  );
+}
+
+.loginButton:hover::before {
+  opacity: 1;
+  transition: all 0.5s ease;
+} */
+
+.animatedLink:hover::after {
+  width: 100%;
+}
+
+.animatedLink::after {
+  content: "";
+  display: block;
+  margin-top: 10px;
+  border-bottom: 3px solid #ff0000;
+  width: 0px;
+  right: 0;
+  -webkit-transition: 0.5s ease;
+  transition: 0.5s ease;
+}
+
+.storeImage:hover {
+  opacity: 0.6;
+}
+
+.storeImage {
+  transition: all 0.4s;
+}
+
+a:hover {
+  opacity: 0.6;
+  color: transparent !important;
+  text-decoration: none !important;
+}
+
+a {
+  transition: all 0.3s;
+}
+.swiper-wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.swiper-slide {
+  padding-left: 5px;
+  padding-right: 10px;
+}
+
+.swiper-container {
+  /* width: 1080px; */
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  height: 400px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  top: 92% !important;
+  color: white !important;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 26px !important;
+}
+
+.swiper-button-prev {
+  left: 49% !important;
+}
+
+.swiper-button-next {
+  left: 52% !important;
+}
+
+.introVideoPhone {
+  width: auto;
+  height: 640px;
+}
+
+.introVideoPlay {
+  position: absolute;
+  z-index: 2;
+  background: #fff;
+  height: 90px;
+  width: 90px;
+  border-radius: 60px;
+  left: 46%;
+  top: 48%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  animation: ripple 2s linear infinite;
+}
+
+.videoModal {
+  position: fixed; /* Stay in place */
+  z-index: 100000000; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  flex-direction: column;
+  align-items: center;
+}
+
+.videoContent {
+  height: 720px;
+}
+
+.featureText {
+  justify-items: center !important;
+  align-items: center !important;
+}
+.featuresPhone {
+  justify-items: center !important;
+  align-items: center !important;
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2),
+      0 0 0 1rem rgba(255, 255, 255, 0.1), 0 0 0 1.5rem rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 1rem rgba(255, 255, 255, 0.1),
+      0 0 0 1.5rem rgba(255, 255, 255, 0.1), 0 0 0 2rem rgba(255, 255, 255, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-inner {
+    height: 240px !important;
+  }
+  .carouselCTA {
+    font-size: 20px !important;
+  }
+  .faqQuestion {
+    font-size: 1.2rem;
+  }
+  .faqAnswer {
+    font-size: 16px;
+  }
+  .GITHeading {
+    font-size: 26px !important;
+  }
+  .GITLabel {
+    font-size: 20px !important;
+  }
+  .GITEmailIcon {
+    font-size: 30px !important;
+  }
+  .swiper-wrapper {
+    padding: 0 !important;
+    margin-left: 3px;
+    width: 100% !important;
+  }
+  .swiper-slide {
+    width: 100% !important;
+  }
+  .swiper-container {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    top: 85% !important;
+  }
+  .swiper-button-prev {
+    left: 45% !important;
+  }
+
+  .swiper-button-next {
+    left: 52% !important;
+  }
+  .sectionHeading {
+    font-size: 22px !important;
+  }
+  .introVideoPlay {
+    left: 40%;
+    top: 48%;
+  }
+  .videoContent {
+    height: 280px;
+  }
+  .carouselHeading1 {
+    font-size: 20px;
+  }
+  .carouselHeading2 {
+    font-size: 24px;
+  }
+  .appstoreIcon2 {
+    margin-left: 20px;
+  }
+  .featureText {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 1rem !important;
+    justify-items: center !important;
+    align-items: center !important;
+  }
+  .featuresPhone {
+    flex: 0 0 100%;
+    max-width: 100%;
+    justify-items: center !important;
+    align-items: center !important;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .cardLayoutTab {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .carousel-inner {
+    height: 280px !important;
+  }
+  .cardLayoutTab2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .introVideoPlay {
+    left: 44%;
+    top: 48%;
+  }
+  .videoContent {
+    flex: 0 0 100%;
+    max-width: 100%;
+    height: 480px;
+  }
+  .featureText {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-top: 1rem !important;
+    justify-items: center !important;
+    align-items: center !important;
+  }
+  .featuresPhone {
+    flex: 0 0 100%;
+    max-width: 100%;
+    justify-items: center !important;
+    align-items: center !important;
+  }
+}

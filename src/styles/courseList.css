@@ -1,0 +1,28 @@
+.detailCard {
+  border-radius: 10px;
+}
+.messageCard {
+  padding: 1.5rem;
+  border: solid 1px gray;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .detailCard {
+    flex-direction: column;
+    padding: 1rem !important;
+  }
+  .courseListWarning {
+    font-size: 20px;
+  }
+  .messageCard {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+}
