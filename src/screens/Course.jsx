@@ -35,9 +35,9 @@ class Course extends React.Component {
           .get()
           .then((userDetails) => {
             const data = userDetails.data();
-            console.log('course user data: ', data, user);
-            const courseName = window.location.pathname.split('/')[2];
-            if(courseName === 'acting'){
+            console.log("course user data: ", data, user);
+            const courseName = window.location.pathname.split("/")[2];
+            if (courseName === "acting") {
               if (
                 data.courses !== undefined &&
                 data.courses.length !== 0 &&
@@ -55,7 +55,7 @@ class Course extends React.Component {
                 data.courses.length !== 0 &&
                 data.courses.includes(courses[courseName].courseId)
               ) {
-                console.log('comonent did mount set video');
+                console.log("comonent did mount set video");
                 this.setVideoLesson(0);
               } else {
                 this.setState({
@@ -63,7 +63,6 @@ class Course extends React.Component {
                 });
               }
             }
-            
           });
         // if (
         //   this.props.userDetails.courses !== undefined &&
