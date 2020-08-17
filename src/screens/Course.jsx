@@ -17,7 +17,7 @@ class Course extends React.Component {
     showInstructorCard: true,
     currentVideoUrl: "",
     loadingURL: false,
-    currentIndex: null,
+    currentIndex: -1,
     index: "",
     trailerVideoUrl: "",
   };
@@ -35,17 +35,35 @@ class Course extends React.Component {
           .get()
           .then((userDetails) => {
             const data = userDetails.data();
-            if (
-              data.courses !== undefined &&
-              data.courses.length !== 0 &&
-              data.courses.includes(window.location.pathname.split("/")[2])
-            ) {
-              this.setVideoLesson(0);
+            console.log('course user data: ', data, user);
+            const courseName = window.location.pathname.split('/')[2];
+            if(courseName === 'acting'){
+              if (
+                data.courses !== undefined &&
+                data.courses.length !== 0 &&
+                data.courses.includes(courseName)
+              ) {
+                this.setVideoLesson(0);
+              } else {
+                this.setState({
+                  loadingURL: false,
+                });
+              }
             } else {
-              this.setState({
-                loadingURL: false,
-              });
+              if (
+                data.courses !== undefined &&
+                data.courses.length !== 0 &&
+                data.courses.includes(courses[courseName].courseId)
+              ) {
+                console.log('comonent did mount set video');
+                this.setVideoLesson(0);
+              } else {
+                this.setState({
+                  loadingURL: false,
+                });
+              }
             }
+            
           });
         // if (
         //   this.props.userDetails.courses !== undefined &&
@@ -240,7 +258,7 @@ class Course extends React.Component {
                         </div>
                       ) : (
                         <React.Fragment>
-                          {this.props.playingIndex === -1 ? (
+                          {this.state.currentIndex === -1 ? (
                             <iframe
                               style={{
                                 height: "100%",
@@ -249,11 +267,11 @@ class Course extends React.Component {
                               src={this.state.trailerVideoUrl}
                               frameBorder="0"
                               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                              allowFFullScreen
+                              allowFullScreen
                             ></iframe>
                           ) : (
                             <QierPlayer
-                              srcOrigin={this.props.videoURL}
+                              srcOrigin={this.state.currentVideoUrl}
                               width={"100%"}
                               height={"100%"}
                             />
