@@ -14,13 +14,20 @@ import {
   ToastsStore,
   ToastsContainerPosition,
 } from "react-toasts";
+import ReactPixel from "react-facebook-pixel";
 import courseList from "./screens/courseList";
+import TermsAndConditions from "./screens/TermsAndConditions";
 
 class App extends React.Component {
   componentDidMount() {
+    const options = {
+      autoConfig: true,
+      debug: false,
+    };
+    ReactPixel.init("691194258142651", null, options);
+    ReactPixel.pageView();
     firebaseApp.auth().onAuthStateChanged((user) => {
       if (user !== null) {
-        console.log("user", user);
         this.props.setAuth({
           userStatus: "loggedIn",
           uid: user.uid,
@@ -45,7 +52,8 @@ class App extends React.Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/courseList" component={courseList} />
           <Route exact path="/about" component={About} />
-          <Route exact path="/about/privacy-policy" component={PrivacyPolicy} />
+          <Route exact path="/privacy-policy" component={PrivacyPolicy} />
+          <Route exact path="/terms-condition" component={TermsAndConditions} />
           <Route exact path="/course/:id" component={Course} />
           <Route path="*" exact component={NotFoundScreen} />
         </Switch>

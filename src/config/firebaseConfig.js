@@ -1,8 +1,12 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDYkAMIMwvL66lnzRFU9nldsrU1XTBOg3A",
-  authDomain: "myedukos-3bbec.firebaseapp.com",
+  authDomain: "auth.myedukos.com",
+  // authDomain: "myedukos-3bbec.firebaseapp.com",
   databaseURL: "https://myedukos-3bbec.firebaseio.com",
   projectId: "myedukos-3bbec",
   storageBucket: "myedukos-3bbec.appspot.com",

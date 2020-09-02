@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/Footer.css";
+import ReactPixel from "react-facebook-pixel";
 
 class Footer extends React.Component {
   render() {
@@ -32,7 +33,15 @@ class Footer extends React.Component {
               style={{ width: 480 }}
             >
               <a
-                href="#"
+                onClick={() => {
+                  ReactPixel.track("Lead", {
+                    action: "Play store icon is clicked",
+                    time: new Date(),
+                    location: "Footer",
+                  });
+                }}
+                href="https://play.google.com/store/apps/details?id=com.myedukos.myedukos"
+                target="_blank"
                 style={{
                   backgroundColor: "#000",
                   borderRadius: 6,
@@ -73,49 +82,58 @@ class Footer extends React.Component {
             style={{ height: 1, position: "absolute", left: 0 }}
           />
           <div className="col-8 col-md-3 mt-5 d-flex justify-content-between">
-            <a href="#">
+            <a
+              href="https://m.facebook.com/Myedukos/?tsid=0.9515917058861268&source=result"
+              target="_blank"
+            >
               <i
                 className="fa fa-facebook-square socialIcon"
                 style={{ color: "gray" }}
                 aria-hidden="true"
               ></i>
             </a>
-            <a href="#">
+            <a
+              href="https://m.youtube.com/channel/UCcMdrORc82tLRzeLT1S0ATQ"
+              target="_blank"
+            >
               <i
                 className="fa fa-youtube-play socialIcon"
                 style={{ color: "gray" }}
                 aria-hidden="true"
               ></i>
             </a>
-            <a href="#">
+            <a
+              href="https://instagram.com/myedukos?igshid=dxfnjqmp5al4"
+              target="_blank"
+            >
               <i
                 className="fa fa-instagram socialIcon"
                 style={{ color: "gray" }}
                 aria-hidden="true"
               ></i>
             </a>
-            <a href="#">
+            {/* <a href="#">
               <i
                 className="fa fa-twitter socialIcon"
                 style={{ color: "gray" }}
                 aria-hidden="true"
               ></i>
-            </a>
+            </a> */}
           </div>
         </div>
 
         {/* extra links */}
         <div className="row mt-5 justify-content-center">
-          <div className="col-12 col-md-6 d-flex justify-content-between">
-            <a href="#" style={{ color: "none" }}>
+          <div className="col-12 col-md-3 d-flex justify-content-between">
+            {/* <a href="#" style={{ color: "none" }}>
               <span
                 className="text-muted footerExtraLinks"
                 style={{ fontSize: 14 }}
               >
                 ABOUT
               </span>
-            </a>
-            <a href="#">
+            </a> */}
+            <a href="/terms-condition">
               <span
                 className="text-muted footerExtraLinks"
                 style={{ fontSize: 14 }}
@@ -123,7 +141,7 @@ class Footer extends React.Component {
                 TERMS OF SERVICE
               </span>
             </a>
-            <a href="#">
+            <a href="/privacy-policy">
               <span
                 className="text-muted footerExtraLinks"
                 style={{ fontSize: 14 }}
@@ -131,14 +149,14 @@ class Footer extends React.Component {
                 PRIVACY POLICY
               </span>
             </a>
-            <a href="#">
+            {/* <a href="#">
               <span
                 className="text-muted footerExtraLinks"
                 style={{ fontSize: 14 }}
               >
                 CONTACT US
               </span>
-            </a>
+            </a> */}
           </div>
         </div>
 
@@ -146,7 +164,7 @@ class Footer extends React.Component {
         <div className="row mt-5 justify-content-center">
           <div className="col-12 col-md-6 d-flex justify-content-center">
             <p className="text-muted" style={{ fontSize: 11 }}>
-              COPYRRIGHT @MYEDUKOS PVT LTD
+              COPYRIGHT @MYEDUKOS PVT LTD
             </p>
           </div>
         </div>

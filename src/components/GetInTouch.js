@@ -3,6 +3,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { ToastsStore } from "react-toasts";
 import sheetsCredentials from "../config/sheetsConfig";
 import validator from "validator";
+import ReactPixel from "react-facebook-pixel";
 
 const SPREADSHEET_ID = sheetsCredentials.spreadsheetId;
 const SHEET_ID = sheetsCredentials.sheetId;
@@ -131,6 +132,11 @@ class GetInTouch extends React.Component {
                       return;
                     }
                     e.preventDefault();
+                    ReactPixel.track("Contact", {
+                      action: "Get In Touch Form is submitted",
+                      time: new Date(),
+                      location: "HomePage Get In Touch",
+                    });
                     this.addQuery({
                       EMAIL: this.state.queryEmail,
                       QUERY: this.state.queryText,

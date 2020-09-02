@@ -3,29 +3,33 @@ import Header from "../components/Header";
 import "../styles/Courses.css";
 import Footer from "../components/Footer";
 import { connect } from "react-redux";
-import { populateCourse, setVideoURL } from "../actions/courseActions";
-import QierPlayer from "qier-player";
+import {
+  populateCourse,
+  setVideoURL,
+  setTrailerURL,
+} from "../actions/courseActions";
+import ReactWebMediaPlayer from "react-web-media-player";
 import { setAuth } from "../actions/authActions";
 import { firebaseApp, firestore, storage } from "../config/firebaseConfig";
 import { firestore as firestore1 } from "firebase";
 import { ToastsStore } from "react-toasts";
 import { courses } from "../constants";
+import ReactPixel from "react-facebook-pixel";
 
 class Course extends React.Component {
   state = {
     activeThumb: null,
     showInstructorCard: true,
-    currentVideoUrl: "",
-    loadingURL: false,
-    currentIndex: -1,
     index: "",
     trailerVideoUrl: "",
+    autoplayVideo: true,
   };
 
   componentDidMount() {
+    const courseName = window.location.pathname.split("/")[2];
+    console.log("course name: ", courseName);
     firebaseApp.auth().onAuthStateChanged((user) => {
       if (user !== null) {
-        console.log("user details from course: ", this.props.userDetails);
         this.setState({
           loadingURL: true,
         });
@@ -35,44 +39,64 @@ class Course extends React.Component {
           .get()
           .then((userDetails) => {
             const data = userDetails.data();
-            console.log("course user data: ", data, user);
-            const courseName = window.location.pathname.split("/")[2];
-            if (courseName === "acting") {
-              if (
-                data.courses !== undefined &&
-                data.courses.length !== 0 &&
-                data.courses.includes(courseName)
-              ) {
-                this.setVideoLesson(0);
-              } else {
-                this.setState({
-                  loadingURL: false,
-                });
-              }
+            // if (courseName === "acting") {
+            if (
+              data.courses !== undefined &&
+              data.courses.length !== 0 &&
+              data.courses.includes(courses[courseName].courseId)
+            ) {
+              this.props.setVideoURL({
+                course: courseName,
+                videoIndex: 0,
+                autoplayVideo: false,
+              });
             } else {
-              if (
-                data.courses !== undefined &&
-                data.courses.length !== 0 &&
-                data.courses.includes(courses[courseName].courseId)
-              ) {
-                console.log("comonent did mount set video");
-                this.setVideoLesson(0);
-              } else {
-                this.setState({
-                  loadingURL: false,
-                });
+              let trailerURL = "";
+              if (courseName === "acting") {
+                trailerURL =
+                  "https://www.youtube-nocookie.com/embed/LbHLNHsxu9Q";
               }
+              if (courseName === "classicalSinging") {
+                trailerURL =
+                  "https://www.youtube-nocookie.com/embed/sM2hOSsBzL8";
+              }
+              if (courseName === "playbackSinging") {
+                trailerURL =
+                  "https://www.youtube-nocookie.com/embed/8HWYJCZu80Y";
+              }
+              if (courseName === "filmMaking") {
+                trailerURL =
+                  "https://www.youtube-nocookie.com/embed/q-Xncp7qLWA";
+              }
+              if (courseName === "westernSinging") {
+                trailerURL =
+                  "https://www.youtube-nocookie.com/embed/n2A8v2Xq9fs";
+              }
+              this.props.setTrailerURL({
+                trailerURL: trailerURL,
+              });
             }
           });
-        // if (
-        //   this.props.userDetails.courses !== undefined &&
-        //   this.props.userDetails.courses.length !== 0 &&
-        //   this.props.userDetails.courses.includes(
-        //     window.location.pathname.split("/")[2]
-        //   )
-        // ) {
-        //   this.setVideoLesson(0);
-        // }
+      } else {
+        let trailerURL = "";
+        if (courseName === "acting") {
+          trailerURL = "https://www.youtube-nocookie.com/embed/LbHLNHsxu9Q";
+        }
+        if (courseName === "classicalSinging") {
+          trailerURL = "https://www.youtube-nocookie.com/embed/sM2hOSsBzL8";
+        }
+        if (courseName === "playbackSinging") {
+          trailerURL = "https://www.youtube-nocookie.com/embed/8HWYJCZu80Y";
+        }
+        if (courseName === "filmMaking") {
+          trailerURL = "https://www.youtube-nocookie.com/embed/q-Xncp7qLWA";
+        }
+        if (courseName === "westernSinging") {
+          trailerURL = "https://www.youtube-nocookie.com/embed/n2A8v2Xq9fs";
+        }
+        this.props.setTrailerURL({
+          trailerURL: trailerURL,
+        });
       }
     });
     const pageRoute = window.location.pathname;
@@ -121,8 +145,17 @@ class Course extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.userLoggedIn) {
+      if (prevProps.playingIndex === -1 && this.props.playingIndex === 0) {
+        this.setState({
+          autoplayVideo: false,
+        });
+      }
+    }
+  }
+
   paymentHandler = (response) => {
-    console.log("payment done: ", response);
     firestore
       .collection("users")
       .doc(this.props.userDetails.uid)
@@ -136,7 +169,6 @@ class Course extends React.Component {
           courses.push(this.props.courseDetails.courseId);
           data["courses"] = courses;
         }
-        console.log("adding course to user document: ", data);
         firestore
           .collection("users")
           .doc(this.props.userDetails.uid)
@@ -153,9 +185,17 @@ class Course extends React.Component {
                   userStatus: "loggedIn",
                   uid: this.props.userDetails.uid,
                 });
+                const courseAmount =
+                  courses[window.location.pathname.split("/")[2]].amount;
+                ReactPixel.track("Purchase", {
+                  value: courseAmount,
+                  currency: "INR",
+                  status: "purchase complete",
+                });
                 ToastsStore.success(
                   "Congratulations, Welcome to the Course🎉🎉"
                 );
+                window.location.reload();
               });
           });
       });
@@ -172,13 +212,23 @@ class Course extends React.Component {
         ToastsStore.warning("Please verify your Email to continue");
         return;
       } else {
+        const courseAmount =
+          courses[window.location.pathname.split("/")[2]].amount;
+        console.log(courseAmount);
+        ReactPixel.track("InitiateCheckout", {
+          value: courseAmount,
+          currency: "INR",
+          status: "purchase attempt",
+        });
         const options = {
-          key: "rzp_test_OJY0ACkNnyQely", // Enter the Key ID generated from the Dashboard
-          amount: "99900", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          key: "rzp_live_aQSG8Jh7DZULIB", // Enter the Key ID generated from the Dashboard
+          amount: courses[window.location.pathname.split("/")[2]].amount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
           currency: "INR",
           name: "My Edukos",
-          description: "Test Transaction",
-          image: "../assets/appstore.png", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          description: `For ${
+            courses[window.location.pathname.split("/")[2]].name
+          } Course`,
+          // image: "../assets/appstore.png", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
           handler: this.paymentHandler,
           notes: {
             address: "My Edukos Platform",
@@ -193,23 +243,7 @@ class Course extends React.Component {
     });
   };
 
-  setVideoLesson = async (index) => {
-    this.setState({
-      loadingURL: true,
-    });
-    const pathRef = storage.refFromURL(
-      courses[window.location.pathname.split("/")[2]].lessonURL[index]
-    );
-    const url = await pathRef.getDownloadURL();
-    this.setState({
-      loadingURL: false,
-      currentIndex: index,
-      currentVideoUrl: url,
-    });
-  };
-
   render() {
-    console.log("active thumb", this.props.userDetails);
     return (
       <div className="container pt-3 pb-3">
         {/* Header */}
@@ -251,28 +285,36 @@ class Course extends React.Component {
                         height: 480,
                       }}
                     >
-                      {this.state.loadingURL ? (
-                        <div class="spinner-grow text-secondary" role="status">
-                          <span class="sr-only">Loading...</span>
+                      {!this.props.videoLoaded ? (
+                        <div
+                          className="spinner-grow text-secondary"
+                          role="status"
+                        >
+                          <span className="sr-only">Loading...</span>
                         </div>
                       ) : (
                         <React.Fragment>
-                          {this.state.currentIndex === -1 ? (
+                          {this.props.playingIndex === -1 ? (
                             <iframe
                               style={{
                                 height: "100%",
                                 width: "100%",
                               }}
-                              src={this.state.trailerVideoUrl}
+                              src={this.props.videoURL}
                               frameBorder="0"
                               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                               allowFullScreen
                             ></iframe>
                           ) : (
-                            <QierPlayer
-                              srcOrigin={this.state.currentVideoUrl}
-                              width={"100%"}
-                              height={"100%"}
+                            <ReactWebMediaPlayer
+                              title={
+                                this.props.courseDetails.lessons[
+                                  this.props.playingIndex
+                                ]
+                              }
+                              video={this.props.videoURL}
+                              autoplay={this.state.autoplayVideo}
+                              color="#ff0000"
                             />
                           )}
                         </React.Fragment>
@@ -367,7 +409,7 @@ class Course extends React.Component {
                               <div className="mt-4">
                                 <div className="d-flex justify-content-start align-items-center mt-2">
                                   <span
-                                    class="material-icons"
+                                    className="material-icons"
                                     style={{ fontSize: 20, color: "white" }}
                                   >
                                     play_circle_outline
@@ -379,7 +421,7 @@ class Course extends React.Component {
                                 </div>
                                 <div className="d-flex justify-content-start align-items-center mt-2">
                                   <span
-                                    class="material-icons"
+                                    className="material-icons"
                                     style={{ fontSize: 20, color: "white" }}
                                   >
                                     star_rate
@@ -390,7 +432,7 @@ class Course extends React.Component {
                                 </div>
                                 <div className="d-flex justify-content-start align-items-center mt-2">
                                   <span
-                                    class="material-icons"
+                                    className="material-icons"
                                     style={{ fontSize: 20, color: "white" }}
                                   >
                                     verified
@@ -531,7 +573,7 @@ class Course extends React.Component {
                                   <div className="mt-4">
                                     <div className="d-flex justify-content-start align-items-center mt-2">
                                       <span
-                                        class="material-icons"
+                                        className="material-icons"
                                         style={{ fontSize: 20, color: "white" }}
                                       >
                                         play_circle_outline
@@ -546,7 +588,7 @@ class Course extends React.Component {
                                     </div>
                                     <div className="d-flex justify-content-start align-items-center mt-2">
                                       <span
-                                        class="material-icons"
+                                        className="material-icons"
                                         style={{ fontSize: 20, color: "white" }}
                                       >
                                         star_rate
@@ -560,7 +602,7 @@ class Course extends React.Component {
                                     </div>
                                     <div className="d-flex justify-content-start align-items-center mt-2">
                                       <span
-                                        class="material-icons"
+                                        className="material-icons"
                                         style={{ fontSize: 20, color: "white" }}
                                       >
                                         verified
@@ -629,13 +671,13 @@ class Course extends React.Component {
                     {this.props.checkedLogin === true &&
                       (this.props.userDetails === null ||
                       this.props.userDetails.courses === undefined ? (
-                        <span class="material-icons ml-2">lock</span>
+                        <span className="material-icons ml-2">lock</span>
                       ) : this.props.userDetails.courses.includes(
                           this.props.courseDetails.courseId
                         ) ? (
                         <></>
                       ) : (
-                        <span class="material-icons ml-2">lock</span>
+                        <span className="material-icons ml-2">lock</span>
                       ))}
                   </div>
 
@@ -650,14 +692,15 @@ class Course extends React.Component {
                                   className={
                                     "lessonCard p-4 bg-dark d-flex flex-column flex-md-row justify-content-start align-items-start"
                                   }
+                                  id={`lesson${index}Card`}
                                   style={{
                                     borderRadius: 10,
                                     borderStyle: "solid",
                                     borderColor: "white",
                                     borderWidth:
-                                      this.state.currentIndex === index ? 4 : 0,
+                                      this.props.playingIndex === index ? 4 : 0,
                                     cursor:
-                                      this.state.currentIndex === index
+                                      this.props.playingIndex === index
                                         ? ""
                                         : "pointer",
                                   }}
@@ -684,13 +727,19 @@ class Course extends React.Component {
                                       }
                                     }
 
-                                    if (this.state.currentIndex === index) {
+                                    if (this.props.playingIndex === index) {
                                       return;
                                     } else {
-                                      console.log(
-                                        window.location.pathname.split("/")
-                                      );
-                                      this.setVideoLesson(index);
+                                      this.setState({
+                                        autoplayVideo: true,
+                                      });
+                                      this.props.setVideoURL({
+                                        course: window.location.pathname.split(
+                                          "/"
+                                        )[2],
+                                        videoIndex: index,
+                                        autoplayVideo: true,
+                                      });
                                     }
                                   }}
                                 >
@@ -824,7 +873,7 @@ class Course extends React.Component {
                         <div className="mt-4">
                           <div className="d-flex justify-content-start align-items-center mt-2">
                             <span
-                              class="material-icons"
+                              className="material-icons"
                               style={{ fontSize: 20, color: "white" }}
                             >
                               play_circle_outline
@@ -836,7 +885,7 @@ class Course extends React.Component {
                           </div>
                           <div className="d-flex justify-content-start align-items-center mt-2">
                             <span
-                              class="material-icons"
+                              className="material-icons"
                               style={{ fontSize: 20, color: "white" }}
                             >
                               star_rate
@@ -847,7 +896,7 @@ class Course extends React.Component {
                           </div>
                           <div className="d-flex justify-content-start align-items-center mt-2">
                             <span
-                              class="material-icons"
+                              className="material-icons"
                               style={{ fontSize: 20, color: "white" }}
                             >
                               verified
@@ -950,7 +999,7 @@ class Course extends React.Component {
                             <div className="mt-4">
                               <div className="d-flex justify-content-start align-items-center mt-2">
                                 <span
-                                  class="material-icons"
+                                  className="material-icons"
                                   style={{ fontSize: 20, color: "white" }}
                                 >
                                   play_circle_outline
@@ -962,7 +1011,7 @@ class Course extends React.Component {
                               </div>
                               <div className="d-flex justify-content-start align-items-center mt-2">
                                 <span
-                                  class="material-icons"
+                                  className="material-icons"
                                   style={{ fontSize: 20, color: "white" }}
                                 >
                                   star_rate
@@ -973,7 +1022,7 @@ class Course extends React.Component {
                               </div>
                               <div className="d-flex justify-content-start align-items-center mt-2">
                                 <span
-                                  class="material-icons"
+                                  className="material-icons"
                                   style={{ fontSize: 20, color: "white" }}
                                 >
                                   verified
@@ -1038,7 +1087,7 @@ class Course extends React.Component {
                 style={{ width: "5rem", height: "5rem" }}
                 role="status"
               >
-                <span class="sr-only">Loading...</span>
+                <span className="sr-only">Loading...</span>
               </div>
             </div>
           )}
@@ -1054,8 +1103,8 @@ class Course extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     populateCourse: (courseParams) => dispatch(populateCourse(courseParams)),
-    setVideoURL: (course, videoIndex) =>
-      dispatch(setVideoURL(course, videoIndex)),
+    setVideoURL: (videoParams) => dispatch(setVideoURL(videoParams)),
+    setTrailerURL: (trailerParams) => dispatch(setTrailerURL(trailerParams)),
     setAuth: (authParams) => dispatch(setAuth(authParams)),
   };
 };
@@ -1073,6 +1122,7 @@ const mapStateToProps = (state) => {
     courseDisplayMode: state.courseReducer.courseDisplayMode,
     videoURL: state.courseReducer.videoURL,
     playingIndex: state.courseReducer.playingIndex,
+    videoLoaded: state.courseReducer.videoLoaded,
   };
 };
 

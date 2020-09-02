@@ -12,10 +12,8 @@ export const loginUser = (loginParams) => {
         .auth()
         .signInWithPopup(facebookProvider)
         .then((result) => {
-          console.log("fb auth success: ", result);
           const user = result.user;
           if (user !== null) {
-            console.log("facebook user: ", user);
             const dbRef = firestore.collection("users").doc(user.uid);
             dbRef
               .set(
@@ -29,24 +27,9 @@ export const loginUser = (loginParams) => {
                 { merge: true }
               )
               .then(() => {
-                console.log("going to dispatch");
                 dbRef.get().then((userDetails) => {
                   const data = userDetails.data();
-                  console.log("dispatching data: ", data);
                   dispatch({ type: "USER_LOGIN", payload: data });
-                  if (window.location.pathname.includes("/course/")) {
-                    if (
-                      data.courses !== undefined &&
-                      data.courses.length !== 0 &&
-                      data.courses.includes(
-                        window.location.pathname.split("/")[2]
-                      )
-                    ) {
-                      dispatch(
-                        setVideoURL(window.location.pathname.split("/")[2], 0)
-                      );
-                    }
-                  }
                 });
               })
               .catch((err) => {
@@ -64,7 +47,6 @@ export const loginUser = (loginParams) => {
         .auth()
         .signInWithPopup(googleProvider)
         .then((result) => {
-          console.log("google auth success: ", result);
           const user = result.user;
           if (user !== null) {
             const dbRef = firestore.collection("users").doc(user.uid);
@@ -83,19 +65,6 @@ export const loginUser = (loginParams) => {
                 dbRef.get().then((userDetails) => {
                   const data = userDetails.data();
                   dispatch({ type: "USER_LOGIN", payload: data });
-                  if (window.location.pathname.includes("/course/")) {
-                    if (
-                      data.courses !== undefined &&
-                      data.courses.length !== 0 &&
-                      data.courses.includes(
-                        window.location.pathname.split("/")[2]
-                      )
-                    ) {
-                      dispatch(
-                        setVideoURL(window.location.pathname.split("/")[2], 0)
-                      );
-                    }
-                  }
                 });
               })
               .catch((err) => {
@@ -134,19 +103,6 @@ export const loginUser = (loginParams) => {
                       type: "EMAIL_USER_SIGNUP",
                       payload: data,
                     });
-                    if (window.location.pathname.includes("/course/")) {
-                      if (
-                        data.courses !== undefined &&
-                        data.courses.length !== 0 &&
-                        data.courses.includes(
-                          window.location.pathname.split("/")[2]
-                        )
-                      ) {
-                        dispatch(
-                          setVideoURL(window.location.pathname.split("/")[2], 0)
-                        );
-                      }
-                    }
                   });
                 })
                 .catch((err) => {
@@ -179,24 +135,10 @@ export const loginUser = (loginParams) => {
                     type: "USER_LOGIN",
                     payload: data,
                   });
-                  if (window.location.pathname.includes("/course/")) {
-                    if (
-                      data.courses !== undefined &&
-                      data.courses.length !== 0 &&
-                      data.courses.includes(
-                        window.location.pathname.split("/")[2]
-                      )
-                    ) {
-                      dispatch(
-                        setVideoURL(window.location.pathname.split("/")[2], 0)
-                      );
-                    }
-                  }
                 });
               });
           })
           .catch((error) => {
-            console.log(error.code, error.message);
             ToastsStore.error(error.message);
           });
       }
@@ -211,7 +153,6 @@ export const logoutUser = () => {
       .signOut()
       .then(() => {
         window.location.reload();
-        console.log("user logged out");
       });
   };
 };
@@ -219,7 +160,6 @@ export const logoutUser = () => {
 export const setAuth = (authParams) => {
   return (dispatch, getState) => {
     if (authParams.userStatus === "loggedIn") {
-      console.log("setting user", authParams);
       firestore
         .collection("users")
         .where("uid", "==", authParams.uid)
@@ -227,7 +167,6 @@ export const setAuth = (authParams) => {
         .then((userDetails) => {
           const data = userDetails.forEach((doc) => {
             const data = doc.data();
-            console.log("user data from firebase: ", data);
 
             dispatch({
               type: "SET_AUTH_LOGGED_IN",
@@ -236,18 +175,6 @@ export const setAuth = (authParams) => {
                 userEmailVerified: authParams.userEmailVerified,
               },
             });
-            if (window.location.pathname.includes("/course/")) {
-              if (
-                data.courses !== undefined &&
-                data.courses.length !== 0 &&
-                data.courses.includes(window.location.pathname.split("/")[2])
-              ) {
-                console.log("calling set video URL");
-                dispatch(
-                  setVideoURL(window.location.pathname.split("/")[2], 0)
-                );
-              }
-            }
           });
         });
     }

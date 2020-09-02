@@ -21,7 +21,6 @@ class Header extends React.Component {
     forgotEmail: null,
   };
   render() {
-    console.log("logged in user: ", this.props.userDetails);
     return (
       <React.Fragment>
         <div
@@ -134,7 +133,7 @@ class Header extends React.Component {
                     <div className="row">
                       <div className="col-12 d-flex flex-column justify-content-center align-items-center">
                         <span
-                          class="material-icons text-success"
+                          className="material-icons text-success"
                           style={{
                             fontSize: 72,
                           }}
@@ -552,11 +551,11 @@ class Header extends React.Component {
           <div>
             {this.props.checkedLogin === false ? (
               <div
-                class="spinner-grow text-dark
+                className="spinner-grow text-dark
                mb-2"
                 role="status"
               >
-                <span class="sr-only">Loading...</span>
+                <span className="sr-only">Loading...</span>
               </div>
             ) : (
               <div>
@@ -603,7 +602,7 @@ class Header extends React.Component {
                     )}
 
                     <div
-                      class="dropdown-menu dropdown-menu-right"
+                      className="dropdown-menu dropdown-menu-right"
                       style={{
                         borderRadius: 10,
                       }}
@@ -617,7 +616,7 @@ class Header extends React.Component {
                         style={{ cursor: "pointer" }}
                       >
                         <span
-                          class="material-icons mr-2"
+                          className="material-icons mr-2"
                           style={{
                             fontSize: 18,
                           }}
@@ -631,12 +630,11 @@ class Header extends React.Component {
                         className="dropdown-item d-flex align-items-center"
                         style={{ cursor: "pointer" }}
                         onClick={() => {
-                          console.log("logging out..");
                           this.props.logoutUser();
                         }}
                       >
                         <span
-                          class="material-icons mr-2"
+                          className="material-icons mr-2"
                           style={{
                             fontSize: 18,
                           }}

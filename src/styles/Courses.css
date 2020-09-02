@@ -49,6 +49,30 @@ p {
   margin: 0;
 }
 
+.wmp-container {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px;
+}
+
+video {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  margin-top: 0 !important;
+}
+
+.wmp-title {
+  white-space: normal !important;
+}
+
+/* .wmp-menu-bar {
+  margin-bottom: 0.2rem;
+  margin-top: 0.2rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  /* margin-top: 0.3rem; */
+
 @media (max-width: 768px) {
   .videoPlayer {
     height: 240px !important;

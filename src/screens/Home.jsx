@@ -7,6 +7,7 @@ import GetInTouch from "../components/GetInTouch";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation } from "swiper";
 import "swiper/swiper-bundle.css";
+import ReactPixel from "react-facebook-pixel";
 
 class Home extends React.Component {
   state = {
@@ -17,20 +18,17 @@ class Home extends React.Component {
   };
   componentDidMount() {
     if (window.screen.width < 768) {
-      console.log("i m in a phone");
       this.setState({
         slidesPerView: 1,
       });
     }
     if (window.screen.width >= 768 && window.screen.width < 1024) {
-      console.log("i m in a tab");
       this.setState({
         slidesPerView: 1,
       });
     }
     window.addEventListener("resize", () => {
       if (window.screen.width < 768) {
-        console.log("i m in a phone");
         this.setState({
           slidesPerView: 1,
         });
@@ -73,7 +71,15 @@ class Home extends React.Component {
             </div>
             <div className="d-flex justify-content-between appStoreLinks mt-4">
               <a
-                href="#"
+                onClick={() => {
+                  ReactPixel.track("Lead", {
+                    action: "Play store icon is clicked",
+                    time: new Date(),
+                    location: "HomePage",
+                  });
+                }}
+                href="https://play.google.com/store/apps/details?id=com.myedukos.myedukos"
+                target="_blank"
                 style={{
                   backgroundColor: "#000",
                   borderRadius: 6,
@@ -151,6 +157,11 @@ class Home extends React.Component {
                         backgroundColor: "#ff0000",
                       }}
                       onClick={() => {
+                        ReactPixel.track("ViewContent", {
+                          action: "Playback Singing course is viewed",
+                          time: new Date(),
+                          location: "HomePage Carousel",
+                        });
                         window.location.href = "/course/playbackSinging";
                       }}
                     >
@@ -194,6 +205,11 @@ class Home extends React.Component {
                         backgroundColor: "#ff0000",
                       }}
                       onClick={() => {
+                        ReactPixel.track("ViewContent", {
+                          action: "Western Singing course is viewed",
+                          time: new Date(),
+                          location: "HomePage Carousel",
+                        });
                         window.location.href = "/course/westernSinging";
                       }}
                     >
@@ -236,6 +252,11 @@ class Home extends React.Component {
                         backgroundColor: "#ff0000",
                       }}
                       onClick={() => {
+                        ReactPixel.track("ViewContent", {
+                          action: "Classical Singing course is viewed",
+                          time: new Date(),
+                          location: "HomePage Carousel",
+                        });
                         window.location.href = "/course/classicalSinging";
                       }}
                     >
@@ -278,6 +299,11 @@ class Home extends React.Component {
                         backgroundColor: "#ff0000",
                       }}
                       onClick={() => {
+                        ReactPixel.track("ViewContent", {
+                          action: "Film Making course is viewed",
+                          time: new Date(),
+                          location: "HomePage Carousel",
+                        });
                         window.location.href = "/course/filmMaking";
                       }}
                     >
@@ -303,9 +329,6 @@ class Home extends React.Component {
                       objectPosition: "top",
                       opacity: 1,
                     }}
-                    onClick={() => {
-                      window.location.href = "/course/acting";
-                    }}
                   />
                   <div
                     style={{
@@ -321,6 +344,14 @@ class Home extends React.Component {
                         borderRadius: 10,
                         color: "#fff",
                         backgroundColor: "#ff0000",
+                      }}
+                      onClick={() => {
+                        ReactPixel.track("ViewContent", {
+                          action: "Acting course is viewed",
+                          time: new Date(),
+                          location: "HomePage Carousel",
+                        });
+                        window.location.href = "/course/acting";
                       }}
                     >
                       View Course
@@ -368,6 +399,11 @@ class Home extends React.Component {
                 <div
                   className="courseCard"
                   onClick={() => {
+                    ReactPixel.track("ViewContent", {
+                      action: "Acting course is viewed",
+                      time: new Date(),
+                      location: "HomePage Courses",
+                    });
                     window.location.href = "/course/acting";
                   }}
                   style={{
@@ -447,6 +483,11 @@ class Home extends React.Component {
                 <div
                   className="courseCard"
                   onClick={() => {
+                    ReactPixel.track("ViewContent", {
+                      action: "Classical Singing course is viewed",
+                      time: new Date(),
+                      location: "HomePage Courses",
+                    });
                     window.location.href = "/course/classicalSinging";
                   }}
                   style={{
@@ -526,6 +567,11 @@ class Home extends React.Component {
                 <div
                   className="courseCard"
                   onClick={() => {
+                    ReactPixel.track("ViewContent", {
+                      action: "PLayback Singing course is viewed",
+                      time: new Date(),
+                      location: "HomePage Courses",
+                    });
                     window.location.href = "/course/playbackSinging";
                   }}
                   style={{
@@ -605,6 +651,11 @@ class Home extends React.Component {
                 <div
                   className="courseCard"
                   onClick={() => {
+                    ReactPixel.track("ViewContent", {
+                      action: "Film Making course is viewed",
+                      time: new Date(),
+                      location: "HomePage Courses",
+                    });
                     window.location.href = "/course/filmMaking";
                   }}
                   style={{
@@ -684,6 +735,11 @@ class Home extends React.Component {
                 <div
                   className="courseCard"
                   onClick={() => {
+                    ReactPixel.track("ViewContent", {
+                      action: "Western Singing course is viewed",
+                      time: new Date(),
+                      location: "HomePage Courses",
+                    });
                     window.location.href = "/course/westernSinging";
                   }}
                   style={{
@@ -837,6 +893,11 @@ class Home extends React.Component {
               <div
                 className="introVideoPlay"
                 onClick={() => {
+                  ReactPixel.track("ViewContent", {
+                    action: "Intro Video is clicked",
+                    time: new Date(),
+                    location: "HomePage A liitle about Us",
+                  });
                   this.setState({
                     videoModal: "flex",
                     isPaused: false,
@@ -1052,7 +1113,7 @@ class Home extends React.Component {
                 >
                   <div className="card-body text-dark">
                     <h5 className="faqAnswer">
-                      My edukos is an online platform where you can explore the
+                      My Edukos is an online platform where you can explore the
                       skill based courses & learn directly from the expert and
                       celebrities.
                     </h5>
@@ -1179,7 +1240,7 @@ class Home extends React.Component {
                       aria-expanded="false"
                       aria-controls="collapseFour"
                     >
-                      What is My edukos community?
+                      What is My Edukos community?
                     </p>
                   </h4>
                 </div>
